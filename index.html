@@ -206,6 +206,13 @@
             background: #059669;
         }
 
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         .output-container {
             background: #0f172a;
             color: #86efac;
@@ -391,9 +398,9 @@
         /* Loading animation */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
@@ -679,7 +686,7 @@ Example for Problem 2: 2 3"></textarea>
             const question = questions[questionId];
             const inputFormat = question.input_format.toLowerCase();
             
-            // Question-specific validations
+            // Basic validations based on input format
             if (inputFormat.includes('integer')) {
                 const parts = inputData.trim().split(/\s+/);
                 for (let part of parts) {
@@ -708,83 +715,8 @@ Example for Problem 2: 2 3"></textarea>
             return /^-?\d+$/.test(s);
         }
 
-        // ===== HIDDEN LOGIC FOR ALL QUESTIONS =====
-        function hiddenLogic(questionId, inputData) {
-            try {
-                switch(questionId) {
-                    case '1':
-                        // Pattern: Sum of squares for multiple numbers, triangular number for single
-                        const parts1 = inputData.trim().split(/\s+/).map(Number);
-                        if (parts1.length === 1) {
-                            return parts1[0] * (parts1[0] + 1) / 2; // Triangular number
-                        } else {
-                            return parts1.reduce((sum, x) => sum + x * x, 0);
-                        }
-
-                    case '2':
-                        // Pattern: Product of all numbers multiplied by count
-                        const numbers2 = inputData.trim().split(/\s+/).map(Number);
-                        const product2 = numbers2.reduce((prod, num) => prod * num, 1);
-                        return product2 * numbers2.length;
-
-                    case '3':
-                        // Pattern: Sum of even-indexed elements minus odd-indexed
-                        const numbers3 = inputData.trim().split(/\s+/).map(Number);
-                        return numbers3.reduce((result, num, i) => {
-                            return i % 2 === 0 ? result + num : result - num;
-                        }, 0);
-
-                    case '4':
-                        // Pattern: Number of 1s in binary representation
-                        const n4 = parseInt(inputData.trim());
-                        return (n4.toString(2).match(/1/g) || []).length;
-
-                    case '5':
-                        // Pattern: Sum of first n prime numbers
-                        const n5 = parseInt(inputData.trim());
-                        function isPrime(x) {
-                            if (x < 2) return false;
-                            for (let i = 2; i <= Math.sqrt(x); i++) {
-                                if (x % i === 0) return false;
-                            }
-                            return true;
-                        }
-                        
-                        let count5 = 0;
-                        let num5 = 2;
-                        let total5 = 0;
-                        while (count5 < n5) {
-                            if (isPrime(num5)) {
-                                total5 += num5;
-                                count5++;
-                            }
-                            num5++;
-                        }
-                        return total5;
-
-                    case '6':
-                        // Pattern: ASCII sum of characters
-                        return inputData.trim().split('').reduce((sum, c) => sum + c.charCodeAt(0), 0);
-
-                    case '7':
-                        // Pattern: Sum of products of consecutive pairs
-                        const numbers7 = inputData.trim().split(/\s+/).map(Number);
-                        let total7 = 0;
-                        for (let i = 0; i < numbers7.length - 1; i++) {
-                            total7 += numbers7[i] * numbers7[i + 1];
-                        }
-                        return total7;
-
-                    default:
-                        return "ERROR: Unknown question ID";
-                }
-            } catch (error) {
-                return `ERROR: ${error.message}`;
-            }
-        }
-
-        // ===== MAIN TEST FUNCTION =====
-        function testInput() {
+        // ===== API CALL TO NETLIFY FUNCTION =====
+        async function testInput() {
             if (!currentQuestion) {
                 showError('Please select a problem first!');
                 return;
@@ -802,47 +734,54 @@ Example for Problem 2: 2 3"></textarea>
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
             
+            // Validate input
+            const validation = validateInput(currentQuestion, input);
+            if (!validation.isValid) {
+                showError(validation.message);
+                return;
+            }
+            
             // Show loading state
             testButtonText.textContent = 'Testing...';
             testButtonIcon.innerHTML = '<div class="loading"></div>';
             testButton.disabled = true;
             
-            // Small delay to show loading state
-            setTimeout(() => {
-                // Validate input
-                const validation = validateInput(currentQuestion, input);
-                if (!validation.isValid) {
-                    showError(validation.message);
-                    resetButton();
-                    return;
+            try {
+                // Call Netlify function
+                const response = await fetch('/.netlify/functions/hidden-logic', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        questionId: currentQuestion,
+                        input: input
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Server error');
                 }
                 
-                // Process input
-                try {
-                    const output = hiddenLogic(currentQuestion, input);
-                    outputDiv.textContent = output;
-                    showSuccess('Pattern executed successfully! Analyze the output to understand the logic.');
-                    
-                    // Increment test count
-                    testCount++;
-                    document.getElementById('testCount').textContent = testCount;
-                    localStorage.setItem('testCount', testCount.toString());
-                } catch (error) {
-                    showError(`Processing error: ${error.message}`);
-                }
+                outputDiv.textContent = data.output;
+                showSuccess('Pattern executed successfully! Analyze the output to understand the logic.');
                 
-                resetButton();
-            }, 500);
-        }
-        
-        function resetButton() {
-            const testButtonText = document.getElementById('testButtonText');
-            const testButtonIcon = document.getElementById('testButtonIcon');
-            const testButton = document.getElementById('testButton');
-            
-            testButtonText.textContent = 'Run Test';
-            testButtonIcon.textContent = '▶️';
-            testButton.disabled = false;
+                // Increment test count
+                testCount++;
+                document.getElementById('testCount').textContent = testCount;
+                localStorage.setItem('testCount', testCount.toString());
+                
+            } catch (error) {
+                showError('Connection error: ' + error.message);
+                outputDiv.textContent = 'Failed to get output';
+            } finally {
+                // Reset button state
+                testButtonText.textContent = 'Run Test';
+                testButtonIcon.textContent = '▶️';
+                testButton.disabled = false;
+            }
         }
 
         function showError(message) {

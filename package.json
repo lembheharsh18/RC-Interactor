@@ -1,0 +1,12 @@
+{
+  "name": "reverse-coding-competition",
+  "version": "1.0.0",
+  "description": "Reverse coding challenge platform with 7 problems",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build process needed'"
+  },
+  "keywords": ["coding", "competition", "challenge"],
+  "author": "Your Name",
+  "license": "MIT"
+}
