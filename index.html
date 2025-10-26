@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeCipher Challenge | Reverse Coding Competition</title>
+    <title>CodePattern Challenge | Reverse Coding</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,6 @@
             --gray: #64748b;
             --success: #10b981;
             --error: #ef4444;
-            --warning: #f59e0b;
             --border-radius: 12px;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --transition: all 0.3s ease;
@@ -40,7 +39,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: var(--border-radius);
@@ -73,39 +72,29 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
 
         .header .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
             font-weight: 400;
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
-        .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 15px;
-            backdrop-filter: blur(10px);
-        }
-
         .content {
-            padding: 40px 30px;
+            padding: 30px;
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            min-height: 500px;
         }
 
-        @media (max-width: 968px) {
+        @media (max-width: 768px) {
             .content {
                 grid-template-columns: 1fr;
             }
@@ -113,20 +102,15 @@
 
         .panel {
             background: var(--light);
-            padding: 30px;
+            padding: 25px;
             border-radius: var(--border-radius);
             border: 1px solid #e2e8f0;
-            transition: var(--transition);
-        }
-
-        .panel:hover {
-            box-shadow: var(--shadow);
         }
 
         h2 {
             color: var(--dark);
             margin-bottom: 20px;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -135,6 +119,120 @@
 
         h2 i {
             color: var(--primary);
+        }
+
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-btn {
+            background: white;
+            text-align: center;
+            padding: 16px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            color: var(--dark);
+            border: 1.5px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .question-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .question-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .question-name {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .question-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .question-title {
+            color: var(--dark);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-desc {
+            color: var(--gray);
+            margin-bottom: 12px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .input-format {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+            margin: 12px 0;
+            border-left: 4px solid var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .examples {
+            margin-top: 15px;
+        }
+
+        .examples strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .example-item {
+            background: white;
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 6px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .example-input {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .example-output {
+            color: var(--success);
+            font-weight: 500;
         }
 
         select, textarea {
@@ -156,7 +254,7 @@
         }
 
         textarea {
-            height: 140px;
+            height: 120px;
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
             resize: vertical;
             line-height: 1.5;
@@ -166,7 +264,6 @@
             display: flex;
             gap: 12px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
 
         button {
@@ -182,6 +279,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
+            justify-content: center;
         }
 
         button:hover {
@@ -192,18 +291,11 @@
 
         button.secondary {
             background: var(--gray);
+            flex: 0.5;
         }
 
         button.secondary:hover {
             background: #475569;
-        }
-
-        button.success {
-            background: var(--success);
-        }
-
-        button.success:hover {
-            background: #059669;
         }
 
         button:disabled {
@@ -216,11 +308,11 @@
         .output-container {
             background: #0f172a;
             color: #86efac;
-            padding: 24px;
+            padding: 20px;
             border-radius: 10px;
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
             font-size: 15px;
-            min-height: 140px;
+            min-height: 120px;
             white-space: pre-wrap;
             word-wrap: break-word;
             border: 1px solid #334155;
@@ -239,11 +331,12 @@
         }
 
         .alert {
-            padding: 16px;
+            padding: 14px;
             border-radius: 10px;
-            margin-top: 20px;
+            margin-top: 15px;
             font-weight: 500;
             display: none;
+            font-size: 0.9rem;
         }
 
         .alert.error {
@@ -258,141 +351,13 @@
             border-left: 4px solid var(--success);
         }
 
-        .question-info {
-            background: white;
-            padding: 24px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 24px;
-        }
-
-        .question-title {
-            color: var(--dark);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .question-title i {
-            color: var(--primary);
-        }
-
-        .question-desc {
-            color: var(--gray);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .input-format {
-            background: #f1f5f9;
-            padding: 16px;
-            border-radius: 8px;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
-            margin: 16px 0;
-            border-left: 4px solid var(--primary);
-        }
-
-        .examples {
-            margin-top: 20px;
-        }
-
-        .example-item {
-            background: white;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 8px;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .example-input {
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .example-output {
-            color: var(--success);
-            font-weight: 500;
-        }
-
-        .question-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .question-btn {
-            background: white;
-            text-align: center;
-            padding: 16px 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            color: var(--dark);
-            border: 1.5px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .question-btn:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .question-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .question-number {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .question-name {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
         .footer {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             background: #f8fafc;
             color: var(--gray);
             border-top: 1px solid #e2e8f0;
-            font-size: 0.9rem;
-        }
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 0.85rem;
         }
 
         /* Loading animation */
@@ -409,31 +374,36 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        .problem-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <div class="logo">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    CodeCipher Challenge
+                <h1>CodePattern Challenge</h1>
+                <div class="subtitle">Test inputs and discover hidden patterns across 7 coding problems</div>
+                <div class="problem-indicator">
+                    <span>7 Problems</span>
+                    <span>•</span>
+                    <span>Input/Output Testing</span>
                 </div>
-                <h1>Reverse Coding Competition</h1>
-                <div class="subtitle">Decode the hidden logic behind 7 challenging programming problems</div>
-                <div class="badge">7 Problems • Time Unlimited • All Skill Levels</div>
             </div>
         </div>
         
         <div class="content">
             <div class="panel">
-                <h2><i>📋</i> Problem Selection</h2>
+                <h2><i>📋</i> Problems</h2>
                 
                 <div class="question-grid" id="questionGrid">
                     <!-- Question buttons will be generated by JavaScript -->
@@ -441,12 +411,7 @@
                 
                 <div class="question-info" id="questionInfo">
                     <div class="question-title"><i>ℹ️</i> Select a Problem</div>
-                    <div class="question-desc">Choose any problem from the grid above to view its details and start testing your solutions.</div>
-                </div>
-
-                <div class="stats">
-                    <div>Problems Solved: <strong>0/7</strong></div>
-                    <div>Tests Run: <strong id="testCount">0</strong></div>
+                    <div class="question-desc">Choose any problem to view its details and start testing patterns.</div>
                 </div>
             </div>
             
@@ -454,32 +419,25 @@
                 <h2><i>🔍</i> Pattern Testing</h2>
                 
                 <select id="questionSelect">
-                    <option value="">-- Select a Problem --</option>
+                    <option value="">-- Select Problem --</option>
                     <!-- Options will be generated by JavaScript -->
                 </select>
                 
-                <textarea id="inputText" placeholder="Enter your test input here...
-Example for Problem 1: 5
-Example for Problem 2: 2 3"></textarea>
+                <textarea id="inputText" placeholder="Enter test input here..."></textarea>
                 
                 <div class="btn-group">
                     <button onclick="testInput()" id="testButton">
-                        <span id="testButtonText">Run Test</span>
+                        <span id="testButtonText">Test Pattern</span>
                         <span id="testButtonIcon">▶️</span>
                     </button>
                     <button onclick="clearInput()" class="secondary">
                         <span>Clear</span>
-                        <span>🗑️</span>
-                    </button>
-                    <button onclick="runExample()" class="success">
-                        <span>Try Example</span>
-                        <span>🔍</span>
                     </button>
                 </div>
                 
                 <div class="output-container">
                     <div class="output-label">OUTPUT</div>
-                    <div id="outputResult">Your output will appear here...</div>
+                    <div id="outputResult">Output will appear here...</div>
                 </div>
                 
                 <div id="errorMessage" class="alert error"></div>
@@ -488,17 +446,7 @@ Example for Problem 2: 2 3"></textarea>
         </div>
 
         <div class="footer">
-            <div class="logo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                CodeCipher Challenge
-            </div>
-            <p>Reverse Coding Competition Platform • Built for Developers</p>
+            <p>CodePattern Challenge • Reverse Coding Platform</p>
         </div>
     </div>
 
@@ -506,20 +454,22 @@ Example for Problem 2: 2 3"></textarea>
         // ===== QUESTION DATA =====
         const questions = {
             '1': {
-                'title': 'Number Sequence Pattern',
-                'description': 'Discover the mathematical relationship in number sequences. Analyze how input numbers transform to output values.',
-                'input_format': 'Single integer OR space-separated integers',
+                'title': 'Essence of a Number',
+                'description': 'Find the digital root (essence) of a non-negative integer by repeatedly summing its digits until a single digit is obtained.',
+                'input_format': 'Single non-negative integer N (0 <= N <= 1,000,000,000)',
                 'examples': [
-                    { input: '5', output: '15' },
-                    { input: '1 2 3', output: '14' },
-                    { input: '10 20 30', output: '1400' }
+                    { input: '12345', output: '6' },
+                    { input: '99', output: '9' },
+                    { input: '4', output: '4' },
+                    { input: '65536', output: '7' },
+                    { input: '0', output: '0' }
                 ],
                 'category': 'Mathematics'
             },
             '2': {
                 'title': 'Mathematical Transformation',
-                'description': 'Identify the mathematical operations applied to the input values to produce the output.',
-                'input_format': 'Space-separated integers (2 or more)',
+                'description': 'Identify the operations applied to input values to produce the output.',
+                'input_format': 'Space-separated integers',
                 'examples': [
                     { input: '2 3', output: '12' },
                     { input: '5 7', output: '70' },
@@ -529,7 +479,7 @@ Example for Problem 2: 2 3"></textarea>
             },
             '3': {
                 'title': 'Sequence Analysis',
-                'description': 'Analyze the pattern in sequences and determine how elements are combined or transformed.',
+                'description': 'Analyze how sequence elements transform to produce the final output.',
                 'input_format': 'Space-separated integers',
                 'examples': [
                     { input: '1 2 3 4', output: '-2' },
@@ -540,7 +490,7 @@ Example for Problem 2: 2 3"></textarea>
             },
             '4': {
                 'title': 'Binary Operations',
-                'description': 'Work with binary representations of numbers and discover the pattern in the outputs.',
+                'description': 'Work with binary representations to discover the output pattern.',
                 'input_format': 'Single integer',
                 'examples': [
                     { input: '5', output: '2' },
@@ -551,7 +501,7 @@ Example for Problem 2: 2 3"></textarea>
             },
             '5': {
                 'title': 'Prime Number Challenge',
-                'description': 'Explore patterns related to prime numbers and their properties.',
+                'description': 'Explore patterns related to prime number properties.',
                 'input_format': 'Single integer',
                 'examples': [
                     { input: '5', output: '28' },
@@ -562,8 +512,8 @@ Example for Problem 2: 2 3"></textarea>
             },
             '6': {
                 'title': 'String Transformation',
-                'description': 'Transform strings according to a hidden pattern and discover the encoding logic.',
-                'input_format': 'A string (no spaces)',
+                'description': 'Discover how strings transform according to hidden patterns.',
+                'input_format': 'String without spaces',
                 'examples': [
                     { input: 'hello', output: '532' },
                     { input: 'abc', output: '294' },
@@ -573,7 +523,7 @@ Example for Problem 2: 2 3"></textarea>
             },
             '7': {
                 'title': 'Array Manipulation',
-                'description': 'Manipulate arrays following a specific pattern and determine the transformation rules.',
+                'description': 'Find the pattern in array transformations and operations.',
                 'input_format': 'Space-separated integers',
                 'examples': [
                     { input: '1 2 3', output: '8' },
@@ -585,7 +535,6 @@ Example for Problem 2: 2 3"></textarea>
         };
 
         let currentQuestion = '1';
-        let testCount = 0;
 
         // ===== INITIALIZATION =====
         function initializeApp() {
@@ -616,13 +565,6 @@ Example for Problem 2: 2 3"></textarea>
             
             // Set initial question
             selectQuestion('1');
-            
-            // Load test count from localStorage
-            const savedTestCount = localStorage.getItem('testCount');
-            if (savedTestCount) {
-                testCount = parseInt(savedTestCount);
-                document.getElementById('testCount').textContent = testCount;
-            }
         }
 
         // ===== QUESTION SELECTION =====
@@ -653,7 +595,7 @@ Example for Problem 2: 2 3"></textarea>
             if (question.examples && question.examples.length > 0) {
                 examplesHtml = `
                     <div class="examples">
-                        <strong>Test Examples:</strong>
+                        <strong>Example Tests:</strong>
                         ${question.examples.map(ex => `
                             <div class="example-item">
                                 <span class="example-input">${ex.input}</span>
@@ -698,14 +640,10 @@ Example for Problem 2: 2 3"></textarea>
                 if (inputFormat.includes('single integer') && parts.length !== 1) {
                     return { isValid: false, message: "This problem requires exactly one integer" };
                 }
-                
-                if (inputFormat.includes('two space-separated integers') && parts.length !== 2) {
-                    return { isValid: false, message: "This problem requires exactly two integers" };
-                }
             }
             
             if (inputFormat.includes('string') && inputFormat.includes('without spaces') && inputData.includes(' ')) {
-                return { isValid: false, message: "This problem does not allow spaces in the input string" };
+                return { isValid: false, message: "This problem does not allow spaces in the input" };
             }
             
             return { isValid: true, message: "Valid" };
@@ -766,19 +704,14 @@ Example for Problem 2: 2 3"></textarea>
                 }
                 
                 outputDiv.textContent = data.output;
-                showSuccess('Pattern executed successfully! Analyze the output to understand the logic.');
-                
-                // Increment test count
-                testCount++;
-                document.getElementById('testCount').textContent = testCount;
-                localStorage.setItem('testCount', testCount.toString());
+                showSuccess('Pattern executed successfully!');
                 
             } catch (error) {
                 showError('Connection error: ' + error.message);
                 outputDiv.textContent = 'Failed to get output';
             } finally {
                 // Reset button state
-                testButtonText.textContent = 'Run Test';
+                testButtonText.textContent = 'Test Pattern';
                 testButtonIcon.textContent = '▶️';
                 testButton.disabled = false;
             }
@@ -806,20 +739,9 @@ Example for Problem 2: 2 3"></textarea>
 
         function clearInput() {
             document.getElementById('inputText').value = '';
-            document.getElementById('outputResult').textContent = 'Your output will appear here...';
+            document.getElementById('outputResult').textContent = 'Output will appear here...';
             document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('successMessage').style.display = 'none';
-        }
-        
-        function runExample() {
-            const question = questions[currentQuestion];
-            if (question && question.examples && question.examples.length > 0) {
-                const randomExample = question.examples[Math.floor(Math.random() * question.examples.length)];
-                document.getElementById('inputText').value = randomExample.input;
-                
-                // Auto-run the test after a short delay
-                setTimeout(testInput, 300);
-            }
         }
 
         // ===== EVENT LISTENERS =====

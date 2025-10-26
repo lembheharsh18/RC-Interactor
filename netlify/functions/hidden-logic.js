@@ -1,43 +1,34 @@
 exports.handler = async (event) => {
-  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
-    return { 
-      statusCode: 405, 
-      body: JSON.stringify({ error: 'Method Not Allowed' }) 
-    };
+    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
   try {
     const { questionId, input } = JSON.parse(event.body);
     
-    // Input validation
     if (!questionId || !input) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing questionId or input' })
-      };
-    }
-
-    if (input.length > 1000) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Input too long (max 1000 characters)' })
-      };
+      return { statusCode: 400, body: JSON.stringify({ error: 'Missing questionId or input' }) };
     }
 
     let output;
     
-    // HIDDEN LOGIC - Users cannot see this!
     switch(questionId) {
       case '1':
-        // Pattern: Sum of squares for multiple numbers, triangular number for single
-        const parts1 = input.trim().split(/\s+/).map(Number);
-        if (parts1.some(isNaN)) {
-          output = "ERROR: Invalid input format. Please enter numbers only.";
-        } else if (parts1.length === 1) {
-          output = parts1[0] * (parts1[0] + 1) / 2; // Triangular number
+        // Essence of a Number (Digital Root)
+        const n1 = parseInt(input.trim());
+        if (isNaN(n1)) {
+          output = "ERROR: Please enter a valid integer";
+        } else if (n1 < 0) {
+          output = "ERROR: Number must be non-negative (0 <= N <= 1e9)";
+        } else if (n1 > 1000000000) {
+          output = "ERROR: Number too large (N <= 1,000,000,000)";
         } else {
-          output = parts1.reduce((sum, x) => sum + x * x, 0);
+          // Digital root calculation
+          function digitalRoot(num) {
+            if (num === 0) return 0;
+            return 1 + (num - 1) % 9;
+          }
+          output = digitalRoot(n1).toString();
         }
         break;
 
@@ -45,10 +36,9 @@ exports.handler = async (event) => {
         // Pattern: Product of all numbers multiplied by count
         const numbers2 = input.trim().split(/\s+/).map(Number);
         if (numbers2.some(isNaN)) {
-          output = "ERROR: Invalid input format. Please enter numbers only.";
+          output = "ERROR: Invalid numbers";
         } else {
-          const product2 = numbers2.reduce((prod, num) => prod * num, 1);
-          output = product2 * numbers2.length;
+          output = numbers2.reduce((prod, num) => prod * num, 1) * numbers2.length;
         }
         break;
 
@@ -56,11 +46,9 @@ exports.handler = async (event) => {
         // Pattern: Sum of even-indexed elements minus odd-indexed
         const numbers3 = input.trim().split(/\s+/).map(Number);
         if (numbers3.some(isNaN)) {
-          output = "ERROR: Invalid input format. Please enter numbers only.";
+          output = "ERROR: Invalid numbers";
         } else {
-          output = numbers3.reduce((result, num, i) => {
-            return i % 2 === 0 ? result + num : result - num;
-          }, 0);
+          output = numbers3.reduce((result, num, i) => i % 2 === 0 ? result + num : result - num, 0);
         }
         break;
 
@@ -68,7 +56,7 @@ exports.handler = async (event) => {
         // Pattern: Number of 1s in binary representation
         const n4 = parseInt(input.trim());
         if (isNaN(n4)) {
-          output = "ERROR: Invalid input format. Please enter a single number.";
+          output = "ERROR: Invalid number";
         } else {
           output = (n4.toString(2).match(/1/g) || []).length;
         }
@@ -77,10 +65,8 @@ exports.handler = async (event) => {
       case '5':
         // Pattern: Sum of first n prime numbers
         const n5 = parseInt(input.trim());
-        if (isNaN(n5)) {
-          output = "ERROR: Invalid input format. Please enter a single number.";
-        } else if (n5 < 1) {
-          output = "ERROR: Please enter a positive integer.";
+        if (isNaN(n5) || n5 < 1) {
+          output = "ERROR: Invalid number";
         } else {
           function isPrime(x) {
             if (x < 2) return false;
@@ -89,72 +75,57 @@ exports.handler = async (event) => {
             }
             return true;
           }
-          
-          let count5 = 0;
-          let num5 = 2;
-          let total5 = 0;
-          while (count5 < n5) {
-            if (isPrime(num5)) {
-              total5 += num5;
-              count5++;
+          let count = 0, num = 2, total = 0;
+          while (count < n5) {
+            if (isPrime(num)) {
+              total += num;
+              count++;
             }
-            num5++;
+            num++;
           }
-          output = total5;
+          output = total;
         }
         break;
 
       case '6':
-        // Pattern: ASCII sum of characters
-        if (input.trim().length === 0) {
-          output = "ERROR: Input cannot be empty";
-        } else if (input.includes(' ')) {
-          output = "ERROR: This question does not allow spaces in the input string";
+        if (input.includes(' ')) {
+          output = "ERROR: No spaces allowed";
         } else {
           output = input.trim().split('').reduce((sum, c) => sum + c.charCodeAt(0), 0);
         }
         break;
 
       case '7':
-        // Pattern: Sum of products of consecutive pairs
         const numbers7 = input.trim().split(/\s+/).map(Number);
         if (numbers7.some(isNaN)) {
-          output = "ERROR: Invalid input format. Please enter numbers only.";
+          output = "ERROR: Invalid numbers";
         } else if (numbers7.length < 2) {
-          output = "ERROR: This question requires at least 2 numbers";
+          output = "ERROR: Need at least 2 numbers";
         } else {
-          let total7 = 0;
+          let total = 0;
           for (let i = 0; i < numbers7.length - 1; i++) {
-            total7 += numbers7[i] * numbers7[i + 1];
+            total += numbers7[i] * numbers7[i + 1];
           }
-          output = total7;
+          output = total;
         }
         break;
 
       default:
-        output = "ERROR: Unknown question ID";
+        output = "ERROR: Unknown question";
     }
 
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ 
-        output: output.toString(),
-        questionId: questionId
-      })
+      body: JSON.stringify({ output: output.toString() })
     };
   } catch (error) {
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({ error: 'Internal server error: ' + error.message })
+      body: JSON.stringify({ error: 'Server error' })
     };
   }
 };
